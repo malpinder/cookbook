@@ -1,0 +1,36 @@
+<div>
+    <%= @recipe.name %>
+</div>
+<div>
+    by <%= link_to "#{@recipe.user.username}", user_path(@recipe.user) %>
+</div>
+<div><%= @recipe.course.humanize %></div>
+<div>Serves: <%= @recipe.portions %></div>
+<div>
+    <% @recipe.amounts.each do |a| %>
+      <%= a.amount%>
+      <%= a.ingredient.name%>
+      <br/>
+    <% end %>
+</div>
+<div>
+  <%= @recipe.instructions %>
+</div>
+<% unless @recipe.comments.empty? %>
+  <div>
+    <% @recipe.comments.each do |comment| %>
+      <%= render :partial => 'comment', :locals => {:comment => comment}  %>
+    <% end %>
+  </div>
+<% end %>
+<% if recipe_viewed_by_recipe_owner? %>
+  <div>
+      <%= link_to 'Edit this recipe.', edit_recipe_path %>
+      <%= link_to 'Delete this recipe.', recipe_path(@recipe), :confirm => 'Are you sure?', :method => :delete %>
+  </div>
+<% end %>
+<div>
+    <% if logged_in? %>
+      <%= link_to 'Add a comment.', new_recipe_comment_path(@recipe) %>
+    <% end %>
+</div>

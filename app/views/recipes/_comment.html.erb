@@ -1,0 +1,10 @@
+<div>
+    By <%= comment.user.username %>:<br/>
+    <%= comment.comment %>
+
+  <% if logged_in? && current_user.id == comment.user_id %>
+    <%= link_to 'Edit', edit_recipe_comment_path(:id => comment.id , :recipe_id => comment.recipe_id) %>
+    |
+    <%= link_to 'Delete', recipe_comment_path(:id => comment.id , :recipe_id => comment.recipe_id), :confirm => 'Are you sure?', :method => :delete %>
+  <% end %>
+</div>

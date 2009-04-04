@@ -1,0 +1,9 @@
+<div>
+  <% form_for @comment, :url => recipe_comment_path, :metod => :update do |c|%>
+    <%= c.label :comment, 'Edit your comment here:' %><br/>
+    <%= c.text_area :comment %>
+    <div>
+      <%= c.submit 'Submit' %>
+    </div>
+  <% end %>
+</div>

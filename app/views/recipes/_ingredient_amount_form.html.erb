@@ -1,0 +1,12 @@
+    <div>
+      <% recipe_form.fields_for :amounts do |amounts_form| %>
+        <div>
+        <%= amounts_form.label :amount %>
+        <%= amounts_form.text_field :amount %>
+        <% amounts_form.fields_for :ingredient do |ingredient_form| %>
+          <%= ingredient_form.label :name, "Ingredient" %>
+          <%= ingredient_form.text_field :name %>
+        <% end %>
+        </div>
+      <% end %>
+    </div>

@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <title>Sarah's Cookbook thing</title>
+    <link rel="stylesheet" href="/stylesheets/blueprint/blueprint/screen.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="/stylesheets/blueprint/blueprint/print.css" type="text/css" media="print" />
+    <!--[if IE]>
+      <link rel="stylesheet" href="/stylesheets/blueprint/blueprint/ie.css" type="text/css" media="screen, projection" />
+    <![endif]-->
+    <link rel="stylesheet" href="/stylesheets/application.css" type="text/css" media="screen" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="span-15">
+        <h1>Sarah's Cookbook</h1>
+      </div>
+
+        <div class="last" style="margin-top: 20px; margin-bottom: 10px;">
+          <% if logged_in? %>
+             Welcome <%= link_to current_user.username, user_path(session[:user_id]) %>
+             |  <%= link_to 'Log Out', session_path, :method => :delete %>
+          <% else %>
+             <%= link_to 'Log In', new_session_path %>
+             | <%= link_to 'Register', new_user_path %>
+          <% end %>
+        </div>
+    </div>
+    <div class="container">
+        <%= link_to 'Back to front page', welcome_path %>
+    </div>
+    <div class ="container" style="margin-bottom: 20px">
+      <%= link_to 'Search for recipes', new_search_path %>
+    </div>
+
+      <% if flash[:notice] or flash[:error] or flash[:warning] %>
+        <div class="notice">
+          <%= flash[:notice] %>
+          <%= flash[:error] %>
+          <%= flash[:warning] %>
+        </div>
+      <% end %>
+
+    <div class="container">
+        <%= yield %>
+    </div>
+    </body>
+</html>

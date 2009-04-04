@@ -1,0 +1,32 @@
+<div class="container">
+<% form_tag :action => :create do %>
+<div>
+  Search by:
+  <%= label_tag :type_recipe, 'Recipe Name' %>
+  <%= radio_button_tag :type , :recipe, true %>
+  <%= label_tag :type_ingredient, 'Ingredient' %>
+  <%= radio_button_tag :type , :ingredient, false %>
+  <%= label_tag :type_user, 'User' %>
+  <%= radio_button_tag :type , :user, false %>
+</div>
+<div>
+  <ul>
+    <% Recipe.courses.each do |course| %>
+      <li>
+        <%= label_tag "course_#{course}", course.humanize %>
+        <%= radio_button_tag 'course', course, true %>
+      </li>
+    <% end %>
+    <li>
+      <%= label_tag 'course_all', 'All' %>
+      <%= radio_button_tag 'course', 'all', true %>
+    </li>
+  </ul>
+</div>
+<div>
+  Search terms:
+  <%= text_field_tag :terms  %>
+  <%= submit_tag 'Search'   %>
+</div>
+<% end %>
+</div>

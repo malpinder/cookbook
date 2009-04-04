@@ -1,0 +1,12 @@
+<% @results.each do |recipe| %>
+  <div>
+    <%= link_to recipe.name, recipe_path(recipe) %>
+  </div>
+<% end %>
+
+<% if @results.empty? %>
+  <div>Your search did not return any results.</div>
+  <div>
+    <%= link_to 'Search again', new_search_path %>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+<div class="container">
+  <% form_for @recipe do |recipe_form| %>
+    <div>
+      <%= recipe_form.label :name, 'Recipe name' %>
+      <%= recipe_form.text_field :name %>
+    </div>
+    <div>
+      <%= recipe_form.label :course %>
+      <%= recipe_form.select :course, Recipe.courses.map(&:humanize) %>
+    </div>
+    <div>
+      <%= recipe_form.label :portions %>
+      <%= recipe_form.text_field :portions %>
+    </div>
+    <div>
+      <%= recipe_form.label :instructions %><br />
+      <%= recipe_form.text_area :instructions %>
+    </div>
+    <%= render :partial => 'ingredient_amount_form', :locals => {:recipe_form => recipe_form} %>
+    <%= recipe_form.submit 'Add another ingredient' %>
+    <% unless @recipe.amounts.length == 1 %>
+      <%= recipe_form.submit 'Remove ingredient' %>
+    <% end %>
+    <div>
+      <%= recipe_form.submit 'Update' %>
+    </div>
+  <% end %>
+</div>

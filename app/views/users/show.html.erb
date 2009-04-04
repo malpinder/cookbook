@@ -1,0 +1,26 @@
+<div>
+    User: <%= @user.username %>
+</div>
+
+<% if ids_match? %>
+  <div>
+      This is your userpage.
+  </div>
+  <div>
+      <%= link_to 'Update your details.', edit_user_path %>
+  </div>
+  <div>
+      <%= link_to 'Submit a recipe.', new_recipe_path %>
+  </div>
+<% end %>
+<% unless @user.recipes.empty? %>
+<div>
+    <%= link_to "#{@user.username}'s latest recipe", recipe_path(@user.recipes.find(:last)[:id]) %>
+</div>
+<div>
+    User's most popular recipe
+</div>
+<div>
+    <%= link_to "View all #{@user.username}'s recipes", search_path(:type => :user, :course => 'all', :terms => @user.username), :method => :post %>
+</div>
+<% end %>

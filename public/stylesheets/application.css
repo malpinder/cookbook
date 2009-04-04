@@ -1,0 +1,8 @@
+body {background-color: rgb( 149, 206, 145);}
+.notice {width:685px;margin-left:165px;padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.notice {background:#E6EFC2;color:#264409;border-color:#C6D880;}
+.notice a {color:#264409;}
+
+.errorExplanation {width:685px;padding:.8em;margin-bottom:1em;border:2px solid #ddd;}
+.errorExplanation {background:#E6EFC2;color:#264409;border-color:#C6D880;}
+.errorExplanation a {color:#264409;}
