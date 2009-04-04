@@ -38,20 +38,20 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = Recipe.find(params[:id])
+    @recipe = Recipe.new(params[:recipe])
 
     if params[:commit] == 'Add another ingredient'
       @amount = Amount.new
       @amount.ingredient = Ingredient.new
       @recipe.amounts << @amount
-      render :action => :new
+      render :action => :edit
       return
     end
 
     if params[:commit] == 'Remove ingredient'
-      @recipe.ingredients.delete_at(-1)
-      @recipe.amounts.delete_at(-1)
-      render :action => :new
+      #@recipe.ingredients.delete_at(-1)
+      #@recipe.amounts.delete_at(-1)
+      render :action => :edit
       return
     end
 
@@ -60,6 +60,10 @@ class RecipesController < ApplicationController
       render :action => :edit
       return
     end
+
+    #@recipe.amounts.each do |a|
+    #  a.delete unless params[:recipe].include?(a)
+    #end
 
     flash[:notice] = 'Updated recipe succesfully.'
     redirect_to recipe_path
