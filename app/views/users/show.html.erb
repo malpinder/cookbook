@@ -1,6 +1,6 @@
-<div>
+<h3>
     User: <%= @user.username %>
-</div>
+</h3>
 
 <% if ids_match? %>
   <div>
@@ -16,9 +16,6 @@
 <% unless @user.recipes.empty? %>
 <div>
     <%= link_to "#{@user.username}'s latest recipe", recipe_path(@user.recipes.find(:last)[:id]) %>
-</div>
-<div>
-    User's most popular recipe
 </div>
 <div>
     <%= link_to "View all #{@user.username}'s recipes", search_path(:type => :user, :course => 'all', :terms => @user.username), :method => :post %>

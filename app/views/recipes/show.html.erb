@@ -1,28 +1,25 @@
-<div>
+<h2>
     <%= @recipe.name %>
-</div>
+</h2>
 <div>
     by <%= link_to "#{@recipe.user.username}", user_path(@recipe.user) %>
 </div>
 <div><%= @recipe.course.humanize %></div>
 <div>Serves: <%= @recipe.portions %></div>
 <div>
+  <ul style="margin-top: 10px;">
     <% @recipe.amounts.each do |a| %>
-      <%= a.amount%>
-      <%= a.ingredient.name%>
-      <br/>
+      <li>
+        <%= a.amount%>
+        <%= a.ingredient.name%>
+      </li>
     <% end %>
+  </ul>
 </div>
-<div>
+<div style="padding: 10px 10px 10px; border-left-width: 50px;">
   <%= @recipe.instructions %>
 </div>
-<% unless @recipe.comments.empty? %>
-  <div>
-    <% @recipe.comments.each do |comment| %>
-      <%= render :partial => 'comment', :locals => {:comment => comment}  %>
-    <% end %>
-  </div>
-<% end %>
+
 <% if recipe_viewed_by_recipe_owner? %>
   <div>
       <%= link_to 'Edit this recipe.', edit_recipe_path %>
@@ -34,3 +31,11 @@
       <%= link_to 'Add a comment.', new_recipe_comment_path(@recipe) %>
     <% end %>
 </div>
+
+<% unless @recipe.comments.empty? %>
+  <div>
+    <% @recipe.comments.each do |comment| %>
+      <%= render :partial => 'comment', :locals => {:comment => comment}  %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,4 +1,11 @@
+<% if logged_in? %>
 <div>
   <%= error_messages_for :recipe %>
 </div>
-<%= render :partial => 'recipe_form' %>
+<%= render :partial => 'recipe_form', :locals => {:destination => :create, :button => 'Create'} %>
+
+<% else %>
+<div class="error">
+  You must be logged in to submit recipes.
+</div>
+<% end %>

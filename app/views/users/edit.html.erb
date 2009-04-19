@@ -1,23 +1,31 @@
-<div><%= error_messages_for :user %></div>
-<div>
-  Your details:
+<% if ids_match? %>
+
+  <div><%= error_messages_for :user %></div>
+  <div>
+    Your details:
+  </div>
+  <div class="container">
+    <% form_for @user do |f|  %>
+      <div>
+        <%= f.label :email, 'E-mail Address' %>
+        <%= f.text_field :email %>
+      </div>
+      <div>
+        <%= f.label :password, 'New Password'  %>
+        <%= f.password_field :password, :value => '' %>
+      </div>
+      <div>
+        <%= f.label :password_confirmation %>
+        <%= f.password_field :password_confirmation %>
+      </div>
+      <div>
+        <%= f.submit 'Update' %>
+      </div>
+    <% end %>
+  <div>
+
+<% else %>
+<div class="error">
+  You are not authorised to edit those details.
 </div>
-<div class="container">
-  <% form_for @user do |f|  %>
-    <div>
-      <%= f.label :email, 'E-mail Address' %>
-      <%= f.text_field :email %>
-    </div>
-    <div>
-      <%= f.label :password, 'New Password'  %>
-      <%= f.password_field :password, :value => '' %>
-    </div>
-    <div>
-      <%= f.label :password_confirmation %>
-      <%= f.password_field :password_confirmation %>
-    </div>
-    <div>
-      <%= f.submit 'Update' %>
-    </div>
-  <% end %>
-<div>
+<% end %>

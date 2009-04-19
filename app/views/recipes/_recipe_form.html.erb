@@ -1,5 +1,5 @@
 <div class="container">
-  <% form_for @recipe do |recipe_form| %>
+  <% form_for @recipe, :action => destination do |recipe_form| %>
     <div>
       <%= recipe_form.label :name, 'Recipe name' %>
       <%= recipe_form.text_field :name %>
@@ -18,11 +18,11 @@
     </div>
     <%= render :partial => 'ingredient_amount_form', :locals => {:recipe_form => recipe_form} %>
     <%= recipe_form.submit 'Add another ingredient' %>
-    <% unless @recipe.amounts.length == 1 %>
+    <% if @recipe.amounts.length > 1 %>
       <%= recipe_form.submit 'Remove ingredient' %>
     <% end %>
     <div>
-      <%= recipe_form.submit 'Update' %>
+      <%= recipe_form.submit button %>
     </div>
   <% end %>
 </div>

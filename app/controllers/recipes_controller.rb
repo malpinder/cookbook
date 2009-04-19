@@ -38,7 +38,8 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = Recipe.new(params[:recipe])
+    @recipe = Recipe.find(params[:id])
+    @recipe.attributes = params[:recipe]
 
     if params[:commit] == 'Add another ingredient'
       @amount = Amount.new
@@ -49,21 +50,58 @@ class RecipesController < ApplicationController
     end
 
     if params[:commit] == 'Remove ingredient'
-      #@recipe.ingredients.delete_at(-1)
-      #@recipe.amounts.delete_at(-1)
+      @recipe.amounts.delete_at(-1)
       render :action => :edit
       return
     end
 
-    unless @recipe.update_attributes(params[:recipe])
+    unless @recipe.save
       flash[:error] = 'Update failed.'
       render :action => :edit
       return
     end
 
-    #@recipe.amounts.each do |a|
-    #  a.delete unless params[:recipe].include?(a)
-    #end
+    #loops through the hashes in params, fetching out amounts and the
+    #ingredients they match to, and storing them in a nested array.
+    params[:recipe][:amounts_attributes].each do |key, value|
+      if value.kind_of?(Hash)
+        value.each do |key2, value2|
+          if key2 == 'ingredient_attributes'
+            value2.each do |key3, value3|
+              if key3 == 'name'
+                @ingredients ||= Array.new
+                @ingredients << value3
+              end
+            end
+          end
+        end
+      end
+    end
+
+    params[:recipe][:amounts_attributes].each do |key, value|
+      if value.kind_of?(Hash)
+        value.each do |key2, value2|
+          if key2 == 'amount'
+            @param_amounts ||= Array.new
+            @iterations ||= 0
+            @param_amounts << [value2, @ingredients.fetch(@iterations).to_s]
+            @iterations += 1
+          end
+        end
+      end
+    end
+    #that's the end of the ugly looping.
+
+    @recipe = Recipe.find(params[:id])
+    @recipe.amounts.each do |a|
+      a.destroy unless @param_amounts.include?([a.amount, a.ingredient.name])
+    end
+
+    unless @recipe.save
+      flash[:error] = 'Update failed.'
+      render :action => :edit
+      return
+    end
 
     flash[:notice] = 'Updated recipe succesfully.'
     redirect_to recipe_path

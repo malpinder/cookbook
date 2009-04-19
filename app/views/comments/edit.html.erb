@@ -1,5 +1,7 @@
+<% if ids_match? %>
+
 <div>
-  <% form_for @comment, :url => recipe_comment_path, :metod => :update do |c|%>
+  <% form_for @comment, :url => recipe_comment_path, :method => :update do |c|%>
     <%= c.label :comment, 'Edit your comment here:' %><br/>
     <%= c.text_area :comment %>
     <div>
@@ -7,3 +9,9 @@
     </div>
   <% end %>
 </div>
+
+<% else %>
+<div class="error">
+  You are not authorised to edit that.
+</div>
+<% end %>
