@@ -6,13 +6,13 @@ class SearchController < ApplicationController
 
       case params[:type]
       when 'ingredient'
-        @results = Ingredient.find(:all, :conditions => ["name like ?", "%#{params[:terms]}%"]).map(&:recipes).flatten
+        @results = Ingredient.find(:all, :conditions => ["name like ?", "%#{params[:terms]}%"], :include => :recipes).map(&:recipes).flatten
 
       when 'recipe'
         @results = Recipe.find(:all, :conditions => ["name like ?", "%#{params[:terms]}%"])
 
       when 'user'
-        @results = User.find(:all, :conditions => ["username like ?", "%#{params[:terms]}%"]).map(&:recipes).flatten
+        @results = User.find(:all, :conditions => ["username like ?", "%#{params[:terms]}%"], :include => :recipes).map(&:recipes).flatten
         
       end
 
