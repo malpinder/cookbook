@@ -117,10 +117,7 @@ class RecipesController < ApplicationController
   end
 
   def index
-    @pager = ::Paginator.new(Recipe.count, 10) do |offset, per_page|
-      Recipe.find(:all, :limit => per_page, :offset => offset)
-    end
-    @page = @pager.page(params[:page])
+    @recipes = Recipe.paginate(:page => params[:page], :order => 'id ASC', :per_page => 10)
   end
 
   def destroy

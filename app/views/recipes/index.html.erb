@@ -1,12 +1,10 @@
 <div class="container">
-  <% @page.items.each do |r| %>
+  <% @recipes.each do |r| %>
     <div>
       <%= link_to r.name, recipe_path(r) %>
     </div>
     <% end %>
 </div>
 <div>
-  <%= @page.number %>
-  <%= link_to('Prev', recipes_url(:page => @page.prev.number)) if @page.prev? %>
-  <%= link_to('Next', recipes_url(:page => @page.next.number)) if @page.next? %>
+  <%= will_paginate @recipes %>
 </div>

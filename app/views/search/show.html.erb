@@ -1,12 +1,18 @@
-<% @results.each do |recipe| %>
-  <div>
-    <%= link_to recipe.name, recipe_path(recipe) %>
-  </div>
-<% end %>
+<div class="container">
+  <% @results.each do |r| %>
+    <div>
+      <%= link_to r.name, recipe_path(r.id) %>
+    </div>
+    <% end %>
+</div>
 
 <% if @results.empty? %>
   <div>Your search did not return any results.</div>
   <div>
     <%= link_to 'Search again', new_search_path %>
   </div>
+  <% else %>
+    <div>
+      <%= will_paginate @results %>
+    </div>
 <% end %>
