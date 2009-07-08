@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20090306142838) do
+ActiveRecord::Schema.define(:version => 20090708194751) do
 
   create_table "amounts", :force => true do |t|
     t.integer  "recipe_id"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(:version => 20090306142838) do
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "activation_code"
+    t.boolean  "activated",       :default => false
   end
 
 end
