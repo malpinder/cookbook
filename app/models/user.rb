@@ -4,12 +4,16 @@ class User < ActiveRecord::Base
 
   validates_presence_of :username
   validates_uniqueness_of :username
+  validates_length_of :username, :in => 6..16, :allow_nil => true
+  validates_format_of :username, /^[A-Za-z0-9]+>$/i
 
   validates_presence_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
   validates_presence_of :password
-  validates_format_of :password, :with => /^.*\d+.*$/
+  validates_length_of :password, :in => 6..24, :allow_nil => true
+  validates_format_of :password, :with => /^.*\d+.*$/, :message => "Must contain at least one digit."
+  validates_format_of :password, :with => /[^\s]/, :message => "Cannot contain spaces."
   validates_confirmation_of :password
 
   after_create :add_activation_code
