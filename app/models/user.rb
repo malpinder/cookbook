@@ -1,6 +1,11 @@
 class User < ActiveRecord::Base
+  require 'digest/sha1'
+  
   has_many :recipes
   has_many :comments
+
+  attr_accessor :password
+  attr_protected :salt
 
   validates_presence_of :username
   validates_uniqueness_of :username
@@ -35,6 +40,23 @@ class User < ActiveRecord::Base
     string = ""
     1.upto(10)  {|i| string << chars[rand(chars.size-1)] }
     return string
+  end
+
+    before_save :add_salt, :encrypt_password
+
+  def add_salt
+    return if password.nil?
+
+    chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+    string = ""
+    1.upto(10)  {|i| string << chars[rand(chars.size-1)] }
+
+    self.salt = string
+  end
+
+  def encrypt_password
+    return if password.nil?
+    self.crypted_password = Digest::SHA1.hexdigest(password+salt)
   end
 
 end
