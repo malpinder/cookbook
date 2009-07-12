@@ -41,6 +41,10 @@ role :app, "cookbook.majrekar.co.uk"
 role :web, "cookbook.majrekar.co.uk"
 role :db,  "cookbook.majrekar.co.uk", :primary => true
 
+before 'deploy:start' do
+  deploy.migrate
+end
+
 after 'deploy:update_code',  'deploy:symlink_shared_files'
 
 namespace :deploy do
