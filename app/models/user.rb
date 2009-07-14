@@ -8,20 +8,21 @@ class User < ActiveRecord::Base
   attr_protected :salt
 
   validates_presence_of :username
-  validates_uniqueness_of :username
+  validates_uniqueness_of :username, :message => 'is already taken.'
   validates_length_of :username, :in => 6..16, :allow_nil => true
-  validates_format_of :username, /^[A-Za-z0-9]+>$/i
+  validates_format_of :username, :with => /^[a-z0-9]+$/i, :message => 'must contain only letters and numbers.'
 
   validates_presence_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
   
   validates_presence_of :password
   validates_length_of :password, :in => 6..24, :allow_nil => true
-  validates_format_of :password, :with => /^.*\d+.*$/, :message => "Must contain at least one digit."
-  validates_format_of :password, :with => /[^\s]/, :message => "Cannot contain spaces."
+  validates_format_of :password, :with => /^.*\d+.*$/, :message => "must contain at least one digit."
+  validates_format_of :password, :with => /[^\s]/, :message => "cannot contain spaces."
   validates_confirmation_of :password
 
   after_create :add_activation_code
+  before_save :add_salt, :encrypt_password
 
   def self.valid_user(attrs)
     username = attrs[:username] || ''
@@ -42,8 +43,6 @@ class User < ActiveRecord::Base
     return string
   end
 
-    before_save :add_salt, :encrypt_password
-
   def add_salt
     return if password.nil?
 
@@ -56,7 +55,7 @@ class User < ActiveRecord::Base
 
   def encrypt_password
     return if password.nil?
-    self.crypted_password = Digest::SHA1.hexdigest(password+salt)
+    self.encrypted_password = Digest::SHA1.hexdigest(password+salt)
   end
 
 end
