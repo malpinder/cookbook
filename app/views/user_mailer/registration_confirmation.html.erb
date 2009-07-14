@@ -1,0 +1,18 @@
+<html>
+<p>Dear <%= @user.username %>,</p>
+<p>
+  Thank you for registering at the <%= link_to 'Cookbook', 'http://cookbok.majrekar.co.uk'%>.
+  You are just one step away from being able to share your recipes with the world.
+</p>
+<p>
+To complete your registration, please visit this URL:
+</p>
+<p><%= link_to 'Activate!', activate_url(:id => @user.id, :code => @user.activation_code) %></p>
+<p>
+  Please note - you must complete this last step to become registered. You will only need to visit this URL once to activate your account.
+  If you have recieved this email in error, please ignore it.
+</p>
+<p>
+  Thankyou!
+</p>
+</html>
