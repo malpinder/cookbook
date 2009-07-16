@@ -17,19 +17,6 @@ class UsersController < ApplicationController
     redirect_to new_session_path
   end
 
-  def activate
-    @user = User.find(params[:id])
-    if @user.activation_code != params[:code]
-      flash[:warning] = 'The code you supplied is incorrect.'
-      redirect_to welcome_path and return
-    end
-
-    @user.toggle(:activated)
-    @user.save
-    flash[:notice] = 'Your account has now been activated. Please log in to continue.'
-    redirect_to new_session_path
-  end
-
   def show
     @user = User.find(params[:id])
   end

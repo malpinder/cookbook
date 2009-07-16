@@ -5,9 +5,9 @@
   You are just one step away from being able to share your recipes with the world.
 </p>
 <p>
-To complete your registration, please visit this URL:
+To complete your registration, please click the link below:
 </p>
-<p><%= link_to 'Activate!', activate_url(:id => @user.id, :code => @user.activation_code) %></p>
+<p><%= link_to 'Activate!', activate_url(:user_id => @user.id, :code => @user.activation_code)%></p>
 <p>
   Please note - you must complete this last step to become registered. You will only need to visit this URL once to activate your account.
   If you have recieved this email in error, please ignore it.

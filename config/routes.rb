@@ -14,13 +14,15 @@ ActionController::Routing::Routes.draw do |map|
   map.blank_search 'search/:type/:course', :controller => 'search', :action => 'show'
   map.new_search 'search/new', :controller => 'search', :action => 'new'
 
-  map.activate 'users/activate/:id/:code', :controller => 'users', :action => 'activate'
+  map.activate "users/:user_id/activate/:code", :controller => "users/activations", :action => "update", :conditions => { :method => :get }
 
 
   # Sample resource route (maps HTTP verbs to controller actions automatically):
   #   map.resources :products
   map.resource :session
   map.resources :users
+  map.resource :activation, :controller => "users/activations", :only => [:new, :create]
+
 
   # Sample resource route with options:
   #   map.resources :products, :member => { :short => :get, :toggle => :post }, :collection => { :sold => :get }

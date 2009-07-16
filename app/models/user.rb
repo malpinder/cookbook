@@ -14,21 +14,28 @@ class User < ActiveRecord::Base
 
   validates_presence_of :email
   validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i
-  
-  validates_presence_of :password
-  validates_length_of :password, :in => 6..24, :allow_nil => true
-  validates_format_of :password, :with => /^.*\d+.*$/, :message => "must contain at least one digit."
-  validates_format_of :password, :with => /[^\s]/, :message => "cannot contain spaces."
-  validates_confirmation_of :password
 
-  after_create :add_activation_code
-  before_save :add_salt, :encrypt_password
+  validates_presence_of :password, :on => :create
+  validates_presence_of :password, :if => :password_set?
+  validates_length_of :password, :in => 6..24, :allow_nil => true, :if => :password_set?
+  validates_format_of :password, :with => /^.*\d+.*$/, :message => "must contain at least one digit.", :if => :password_set?
+  validates_format_of :password, :with => /[^\s]/, :message => "cannot contain spaces.", :if => :password_set?
+  validates_confirmation_of :password, :if => :password_set?
+
+
+  after_create :add_activation_code, :add_salt
+  before_save :encrypt_password
+
+  def password_set?
+    !self.password.nil?
+  end
 
   def self.valid_user(attrs)
-    username = attrs[:username] || ''
-    password = attrs[:password] || ''
-
-    self.find_by_username_and_password(username, password)
+    @user = self.find_by_username(attrs[:username])
+    return nil if @user.nil?
+    encrypted_password = Digest::SHA1.hexdigest(attrs[:password]+@user.salt)
+    return nil unless @user.encrypted_password == encrypted_password
+    @user
   end
   
   def add_activation_code

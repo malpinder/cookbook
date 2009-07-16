@@ -1,0 +1,10 @@
+<div>To resend your activation email, please fill in your account details.</div>
+<div>
+  <% form_for :user, :url => activation_path do |f| %>
+    <div>
+    <%= f.label :username %>
+    <%= f.text_field :username %>
+    </div>
+    <%= f.submit 'Resend' %>
+  <% end %>
+</div>
